@@ -67,7 +67,6 @@ set encoding=UTF-8
 
 " Uncomment the following to have Vim jump to the last position when
 " reopening a file
-"au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
 " Uncomment the following to have Vim load indentation rules and plugins
 " according to the detected filetype.
@@ -83,18 +82,27 @@ set incsearch		" Incremental search
 "set autowrite		" Automatically save before commands like :next and :make
 set hidden		" Hide buffers when they are abandoned
 set mouse=a		" Enable mouse usage (all modes)
-set tabstop=4
+set tabstop=2
+set shiftwidth=2
+set number
 
 call plug#begin()
   Plug 'preservim/nerdtree'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
   Plug 'morhetz/gruvbox'
   Plug 'ryanoasis/vim-devicons'
-"  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  Plug 'SirVer/ultisnips'
+  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+  "Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
+	Plug 'mlaursen/vim-react-snippets'
 "  Plug 'Yggdroot/indentLine'
 "  Plug	'nathanaelkane/vim-indent-guides'	
+	Plug 'pangloss/vim-javascript' 
+	Plug 'styled-components/vim-styled-components', { 'branch': 'main'}
+ 	Plug 'maxmellon/vim-jsx-pretty'
+"	Plug 'Valloric/YouCompleteMe', { 'do': './install.py'}
+"	Plug 'ycm-core/YouCompleteMe'
+	Plug 'christoomey/vim-tmux-navigator'
 call plug#end()
 
 "Indentation
@@ -141,7 +149,7 @@ autocmd VimEnter * NERDTree
 autocmd FileType nerdtree setlocal nolist
 let NERDTreeIgnore = ['\.class$']
 
-let g:coc_global_extensions = ['coc-snippets', 'coc-clangd', 'coc-pairs', 'coc-prettier', 'coc-java']
+let g:coc_global_extensions = ['coc-snippets', 'coc-clangd', 'coc-pairs', 'coc-prettier', 'coc-java', 'coc-tsserver']
 "Sur le save prettier est ajouté"
 command! -nargs=0 Prettier :CocCommand prettier.formatFile
 
