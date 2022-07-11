@@ -84,30 +84,65 @@ set hidden		" Hide buffers when they are abandoned
 set mouse=a		" Enable mouse usage (all modes)
 set tabstop=2
 set shiftwidth=2
-set number
+set number relativenumber
+set nowrap
 
 call plug#begin()
+	"NERDTree
   Plug 'preservim/nerdtree'
+
+	Plug 'junegunn/fzf', {'dir': '~/.fzf','do': './install --all'}
+	Plug 'junegunn/fzf.vim'
   Plug 'neoclide/coc.nvim', {'branch': 'release'}
+	Plug 'antoinemadec/coc-fzf'
+
   Plug 'morhetz/gruvbox'
   Plug 'ryanoasis/vim-devicons'
-  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-  "Plug 'SirVer/ultisnips'
+"  Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plug 'vwxyutarooo/nerdtree-devicons-syntax'
+  Plug 'SirVer/ultisnips'
   Plug 'honza/vim-snippets'
 	Plug 'mlaursen/vim-react-snippets'
 "  Plug 'Yggdroot/indentLine'
-"  Plug	'nathanaelkane/vim-indent-guides'	
+  Plug	'nathanaelkane/vim-indent-guides'	
 	Plug 'pangloss/vim-javascript' 
 	Plug 'styled-components/vim-styled-components', { 'branch': 'main'}
  	Plug 'maxmellon/vim-jsx-pretty'
 "	Plug 'Valloric/YouCompleteMe', { 'do': './install.py'}
 "	Plug 'ycm-core/YouCompleteMe'
 	Plug 'christoomey/vim-tmux-navigator'
+	Plug 'vim-airline/vim-airline'
+	Plug 'vim-airline/vim-airline-themes'
+	Plug 'KabbAmine/vCoolor.vim'
+"Wakatime
+	Plug 'wakatime/vim-wakatime'
+	Plug 'tpope/vim-fugitive'
+	Plug 'tpope/vim-commentary'
+
 call plug#end()
+
+
+"Personnalisation Indent guides
+  let g:indent_guides_auto_colors = 0
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd  guibg=#4e4e4e	ctermbg=3
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven guibg=#444444 ctermbg=4
+  let g:indent_guides_guide_size = 1
 
 "Indentation
 "let g:indentLine_char = '.'
 let g:indent_guides_enable_on_vim_startup = 1
+  autocmd VimEnter,Colorscheme * :hi NERDTreeDir ctermfg=67   guifg=#5f87af
+
+"let g:UltiSnipsExpandTrigger="<tab>"
+"let g:UltiSnipsListSnippets="<c-tab>"
+"let g:UltiSnipsJumpForwardTrigger="<c-u>"
+"let g:UltiSnipsJumpBackwardTrigger="<c-i>"
+
+let g:NERDTreeDirArrowExpandable = '-'
+let g:NERDTreeDirArrowCollapsible = '|'
+let g:NERDTreeWinSize=20
+let g:WebDevIconsNerdTreeBeforeGlyphPadding = ''
+let g:WebDevIconsNerdTreeAfterGlyphPadding = ' '
 
 "Coc-Snippets
 
@@ -140,7 +175,7 @@ function! s:check_back_space() abort
   return !col || getline('.')[col - 1]  =~# '\s'
 endfunction
 
-let g:coc_snippet_next = '<tab>'
+"let g:coc_snippet_next = '<tab>'
 """""""""""
 
 " Ouverture de NERDTree à chaque ouverture de vim
@@ -181,34 +216,61 @@ if (empty($TMUX))
 endif
 
 "DevIcons colors
-let g:NERDTreeFileExtensionHighlightFullName = 1
-let g:NERDTreeExactMatchHighlightFullName = 1
-let g:NERDTreePatternMatchHighlightFullName = 1
-let g:webdevicons_enable = 1
+"let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+"let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+"let g:NERDTreeFileExtensionHighlightFullName = 1
+"let g:NERDTreeExactMatchHighlightFullName = 1
+"let g:NERDTreePatternMatchHighlightFullName = 1
+"let g:webdevicons_enable = 1
+"let g:NERDTreeHighlightFoldersFullName = 1
+
+"let g:WebDevIconsDisableDefaultFolderSymbolColorFromNERDTreeDir = 1
+"let g:WebDevIconsDisableDefaultFileSymbolColorFromNERDTreeFile = 1
+"
+
+	"Changement couleur nerdtree par defaut
+let s:colors = {
+  \ 'brown'       : "905532",
+  \ 'aqua'        : "3AFFDB",
+  \ 'blue'        : "689FB6",
+  \ 'darkBlue'    : "44788E",
+  \ 'purple'      : "834F79",
+  \ 'lightPurple' : "834F79",
+  \ 'red'         : "AE403F",
+  \ 'beige'       : "F5C06F",
+  \ 'yellow'      : "F09F17",
+  \ 'orange'      : "D4843E",
+  \ 'darkOrange'  : "F16529",
+  \ 'pink'        : "CB6F6F",
+  \ 'salmon'      : "EE6E73",
+  \ 'green'       : "8FAA54",
+  \ 'lightGreen'  : "31B53E",
+  \ 'white'       : "FFFFFF"
+\ }
 
 " NERDTrees File highlighting
-function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
- exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
- exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-endfunction
+"function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
+" exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .' guibg='. a:guibg .' guifg='. a:guifg
+" exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
+"endfunction
 
-call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
-call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
-call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
-call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
-call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
-call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
-call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
-call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
-call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
+"call NERDTreeHighlightFile('ini', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('md', 'blue', 'none', '#3366FF', '#151515')
+"call NERDTreeHighlightFile('yml', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('config', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('conf', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('json', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('html', 'yellow', 'none', 'yellow', '#151515')
+"call NERDTreeHighlightFile('styl', 'cyan', 'none', 'cyan', '#151515')
+"call NERDTreeHighlightFile('css', 'cyan', 'none', 'cyan', '#151515')
+"call NERDTreeHighlightFile('coffee', 'Red', 'none', 'red', '#151515')
+"call NERDTreeHighlightFile('js', 'Red', 'none', '#ffa500', '#151515')
+"call NERDTreeHighlightFile('php', 'Magenta', 'none', '#ff00ff', '#151515')
+"call NERDTreeHighlightFile('ds_store', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('gitconfig', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('gitignore', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('bashrc', 'Gray', 'none', '#686868', '#151515')
+"call NERDTreeHighlightFile('bashprofile', 'Gray', 'none', '#686868', '#151515')
 
 "autocmd VimEnter * call NERDTreeHighlightFile('jade', 'green', 'none', 'green', '#151515')
